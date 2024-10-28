@@ -11,8 +11,8 @@ See [test/wpt](../../wpt/README.md) for information on how these tests are run.
 Last update:
 
 - common: https://github.com/web-platform-tests/wpt/tree/dbd648158d/common
-- compression: https://github.com/web-platform-tests/wpt/tree/5aa50dd415/compression
-- console: https://github.com/web-platform-tests/wpt/tree/767ae35464/console
+- compression: https://github.com/web-platform-tests/wpt/tree/da8d6860b2/compression
+- console: https://github.com/web-platform-tests/wpt/tree/e48251b778/console
 - dom/abort: https://github.com/web-platform-tests/wpt/tree/0143fe244b/dom/abort
 - dom/events: https://github.com/web-platform-tests/wpt/tree/0a811c5161/dom/events
 - encoding: https://github.com/web-platform-tests/wpt/tree/1ac8deee08/encoding
@@ -32,9 +32,9 @@ Last update:
 - user-timing: https://github.com/web-platform-tests/wpt/tree/5ae85bf826/user-timing
 - wasm/jsapi: https://github.com/web-platform-tests/wpt/tree/cde25e7e3c/wasm/jsapi
 - wasm/webapi: https://github.com/web-platform-tests/wpt/tree/fd1b23eeaa/wasm/webapi
-- WebCryptoAPI: https://github.com/web-platform-tests/wpt/tree/203d2ac459/WebCryptoAPI
+- WebCryptoAPI: https://github.com/web-platform-tests/wpt/tree/75db68b054/WebCryptoAPI
 - webidl/ecmascript-binding/es-exceptions: https://github.com/web-platform-tests/wpt/tree/a370aad338/webidl/ecmascript-binding/es-exceptions
-- webmessaging/broadcastchannel: https://github.com/web-platform-tests/wpt/tree/e97fac4791/webmessaging/broadcastchannel
+- webmessaging/broadcastchannel: https://github.com/web-platform-tests/wpt/tree/6495c91853/webmessaging/broadcastchannel
 - webstorage: https://github.com/web-platform-tests/wpt/tree/9dafa89214/webstorage
 
 [Web Platform Tests]: https://github.com/web-platform-tests/wpt

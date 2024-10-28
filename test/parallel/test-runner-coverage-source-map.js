@@ -19,6 +19,7 @@ function generateReport(report) {
 }
 
 const flags = [
+  '--enable-source-maps',
   '--test', '--experimental-test-coverage', '--test-reporter', 'tap',
 ];
 
@@ -40,31 +41,28 @@ describe('Coverage with source maps', async () => {
     const spawned = await common.spawnPromisified(process.execPath, flags, {
       cwd: fixtures.path('test-runner', 'coverage')
     });
+
     t.assert.strictEqual(spawned.stderr, '');
     t.assert.ok(spawned.stdout.includes(report));
     t.assert.strictEqual(spawned.code, 1);
   });
 
-  it('accounts only mapped lines when --enable-source-maps is provided', async (t) => {
+  await it('should only work with --enable-source-maps', async (t) => {
     const report = generateReport([
       '# --------------------------------------------------------------',
       '# file          | line % | branch % | funcs % | uncovered lines',
       '# --------------------------------------------------------------',
-      '# a.test.ts     | 100.00 |   100.00 |  100.00 | ', // part of a bundle
-      '# b.test.ts     |  88.89 |   100.00 |  100.00 | 1', // part of a bundle
-      '# index.test.js |  71.43 |    66.67 |  100.00 | 6-7', // no source map
-      '# stdin.test.ts | 100.00 |   100.00 |  100.00 | ', // Source map without original file
+      '# a.test.mjs    | 100.00 |   100.00 |  100.00 | ',
+      '# index.test.js |  71.43 |    66.67 |  100.00 | 6-7',
+      '# stdin.test.js | 100.00 |   100.00 |  100.00 | ',
       '# --------------------------------------------------------------',
-      '# all files     |  91.67 |    87.50 |  100.00 | ',
+      '# all files     |  85.71 |    87.50 |  100.00 | ',
       '# --------------------------------------------------------------',
     ]);
 
-    const spawned = await common.spawnPromisified(process.execPath, [
-      '--test', '--experimental-test-coverage', '--enable-source-maps', '--test-reporter', 'tap',
-    ], {
+    const spawned = await common.spawnPromisified(process.execPath, flags.slice(1), {
       cwd: fixtures.path('test-runner', 'coverage')
     });
-
     t.assert.strictEqual(spawned.stderr, '');
     t.assert.ok(spawned.stdout.includes(report));
     t.assert.strictEqual(spawned.code, 1);
@@ -114,7 +112,6 @@ describe('Coverage with source maps', async () => {
       const spawned = await common.spawnPromisified(process.execPath, [...flags, file]);
 
       const error = `The source map for '${pathToFileURL(file)}' does not exist or is corrupt`;
-
       t.assert.strictEqual(spawned.stderr, '');
       t.assert.ok(spawned.stdout.includes(error));
       t.assert.strictEqual(spawned.code, 1);
