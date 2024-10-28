@@ -813,6 +813,7 @@ of `--enable-source-maps`.
 <!-- YAML
 added:
   - v23.0.0
+  - v22.10.0
 -->
 
 > Stability: 1 - Experimental
@@ -982,7 +983,7 @@ JavaScript.
 added: v22.7.0
 -->
 
-> Stability: 1.0 - Early development
+> Stability: 1.1 - Active development
 
 Enables the transformation of TypeScript-only syntax into JavaScript code.
 Implies `--experimental-strip-types` and `--enable-source-maps`.
@@ -1120,7 +1121,7 @@ Enable the experimental [`node:sqlite`][] module.
 added: v22.6.0
 -->
 
-> Stability: 1.0 - Early development
+> Stability: 1.1 - Active development
 
 Enable experimental type-stripping for TypeScript files.
 For more information, see the [TypeScript type-stripping][] documentation.
@@ -3075,6 +3076,10 @@ one is included in the list below.
 * `--force-fips`
 * `--force-node-api-uncaught-exceptions-policy`
 * `--frozen-intrinsics`
+* `--heap-prof-dir`
+* `--heap-prof-interval`
+* `--heap-prof-name`
+* `--heap-prof`
 * `--heapsnapshot-near-heap-limit`
 * `--heapsnapshot-signal`
 * `--http-parser`
