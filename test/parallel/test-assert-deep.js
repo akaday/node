@@ -1374,6 +1374,7 @@ test('Comparing two different WeakSet instances', () => {
   assertNotDeepOrStrict(weakSet1, weakSet2);
 });
 
+
 test('Comparing two arrays nested inside object, with overlapping elements', () => {
   const actual = { a: { b: [1, 2, 3] } };
   const expected = { a: { b: [3, 4, 5] } };
@@ -1474,6 +1475,7 @@ test('Detects differences in deeply nested arrays instead of seeing a new object
     }
   );
 });
+
 
 // check URL
 {
