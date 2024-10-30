@@ -1,4 +1,4 @@
-FROM node:22-alpine3.19@sha256:83b4d7bcfc3d4a40faac3e73a59bc3b0f4b3cc72b9a19e036d340746ebfeaecb
+FROM node:23-alpine3.19@sha256:d432cbd00c28c10b7de0677f7d26983ffb0c0eaae499955c4d12da71239386cb
 
 ARG UID=1000
 ARG GID=1000
