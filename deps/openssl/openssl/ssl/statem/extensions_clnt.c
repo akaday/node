@@ -1662,10 +1662,14 @@ int tls_parse_stoc_alpn(SSL *s, PACKET *pkt, unsigned int context, X509 *x,
     }
     s->s3.alpn_selected_len = len;
 
+    if (s->s3.alpn_selected == NULL) {
+        SSLfatal(s, SSL_AD_INTERNAL_ERROR, ERR_R_INTERNAL_ERROR);
+        return 0;
+    }
+
     if (s->session->ext.alpn_selected == NULL
             || s->session->ext.alpn_selected_len != len
-            || s->s3.alpn_selected == NULL
-            || memcmp(s->session->ext.alpn_selected, s->s3.alpn_selected, len) != 0) {
+            || (s->s3.alpn_selected != NULL && memcmp(s->session->ext.alpn_selected, s->s3.alpn_selected, len) != 0)) {
         /* ALPN not consistent with the old session so cannot use early_data */
         s->ext.early_data_ok = 0;
     }
