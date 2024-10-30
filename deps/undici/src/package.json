@@ -107,6 +107,9 @@
   "devDependencies": {
     "@fastify/busboy": "3.0.0",
     "@matteo.collina/tspl": "^0.1.1",
+<
+    "@sinonjs/fake-timers": "^13.0.5",
+=======
 
     "@sinonjs/fake-timers": "^11.1.0",
 
@@ -115,6 +118,7 @@
     "@types/node": "^22.7.5",
 
     "@sinonjs/fake-timers": "^13.0.2",
+
     "@types/node": "^18.0.3",
 
     "abort-controller": "^3.0.0",
