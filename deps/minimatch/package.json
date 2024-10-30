@@ -54,16 +54,32 @@
     "node": "20 || >=22"
   },
   "dependencies": {
-    "brace-expansion": "^2.0.1"
+    "brace-expansion": "^4.0.0"
   },
   "devDependencies": {
     "@types/brace-expansion": "^1.1.2",
+
     "@types/node": "^20.14.10",
+    "esbuild": "^0.24.0",
+=======
+
+    "@types/node": "^22.7.5",
     "esbuild": "^0.23.0",
+=======
+    "@types/node": "^20.14.10",
+    "esbuild": "^0.24.0",
+
     "mkdirp": "^3.0.1",
     "prettier": "^3.3.2",
+
+
     "tap": "^20.0.3",
+    "tshy": "^3.0.2",
+
+
+    "tap": "^21.0.1",
     "tshy": "^2.0.1",
+
     "typedoc": "^0.26.3",
     "typescript": "^5.5.3"
   },

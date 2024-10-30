@@ -14,9 +14,31 @@
     "vfile-reporter": "^8.1.1"
   },
   "devDependencies": {
+<<<<<<< HEAD
+
+    "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+=======
+
+    "@rollup/plugin-commonjs": "^28.0.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+
+    "rollup": "^4.24.0",
+=======
+
+    "rollup": "^4.24.0",
+=======
+=======
+    "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+
+    "rollup": "^4.22.4",
+
+=======
     "@rollup/plugin-commonjs": "^28.0.1",
     "@rollup/plugin-node-resolve": "^15.3.0",
     "rollup": "^4.24.0",
+>>>>>>> 2a965493a97917a3c3f39766effe66c3f388544c
     "rollup-plugin-cleanup": "^3.2.1"
   }
 }

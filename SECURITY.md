@@ -1,5 +1,7 @@
 # Security
 
+## Some text
+
 ## Reporting a bug in Node.js
 
 Report security bugs in Node.js via [HackerOne](https://hackerone.com/nodejs).
@@ -187,7 +189,7 @@ the community they pose.
   Therefore, it is not a vulnerability if it accesses/loads files from any path
   that is accessible to it.
 
-#### External Control of System or Configuration Setting (CWE-15)
+## ## External Control of System or Configuration Setting (CWE-15)
 
 * If Node.js automatically loads a configuration file which is documented
   no scenario that requires modification of that configuration file is

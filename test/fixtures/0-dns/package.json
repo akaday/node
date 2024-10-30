@@ -10,7 +10,15 @@
   "license": "SEE LICENSE IN ../../../LICENSE",
   "private": true,
   "dependencies": {
+
     "asn1.js": "^4.9.1",
+    "asn1.js-rfc5280": "^3.0.0"
+=======
+    "asn1.js": "^5.4.1",
     "asn1.js-rfc5280": "^1.2.2"
+=======
+    "asn1.js": "^4.9.1",
+    "asn1.js-rfc5280": "^3.0.0"
+
   }
 }

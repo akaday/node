@@ -115,11 +115,16 @@
       'src/lib/record/ares_dns_private.h',
       'src/lib/record/ares_dns_record.c',
       'src/lib/record/ares_dns_write.c',
+<
+      'src/lib/str/ares__buf.h',
+
       'src/lib/str/ares_buf.c',
       'src/lib/str/ares_str.c',
       'src/lib/str/ares_strsplit.c',
       'src/lib/str/ares_strsplit.h',
+
       'src/lib/thirdparty/apple/dnsinfo.h',
+
       'src/lib/util/ares_iface_ips.c',
       'src/lib/util/ares_iface_ips.h',
       'src/lib/util/ares_math.c',
@@ -132,7 +137,12 @@
       'src/lib/util/ares_timeval.c',
       'src/lib/util/ares_uri.c',
       'src/lib/util/ares_uri.h',
+<
+      'src/tools/ares_getopt.c',
+      'src/tools/ares_getopt.h',
+=======
       'src/lib/windows_port.c',
+
     ],
     'cares_sources_mac': [
       'config/darwin/ares_config.h',
