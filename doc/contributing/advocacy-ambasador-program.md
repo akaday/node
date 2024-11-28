@@ -18,6 +18,10 @@ The ambassador program does that by:
   messages and topics defined.
 * Advocating for ambassadors to be part of the OpenJS speakers bureau, even if the
   ambassador is not otherwise an active member of the project itself.
+* Each ambassador could add a maximum of three links to resources to learn Node.js
+  on a dedicated page on the main Node.js website. At least one of those must be a
+  free resource. The Node.js TSC members could ask for coupon codes to verify the
+  material if they so decide.
 
 ## Ambassadors nominations
 
@@ -96,3 +100,33 @@ an ambassador. These requests can be made through the existing social channel
 in the OpenJS Slack. For that reason and for communication purposes and
 collaboration opportunities, ambassadors should be members of the
 [OpenJS Slack](https://slack-invite.openjsf.org/).
+
+## Messages and topics to promote
+
+### How to add messages or topics to promote
+
+Messages or topics that ambassadors are asked to promote are added to this
+document in the [Current messages for promotion](#current-messages-for-promotion)
+section through the standard PR process except that they should be open
+for 7 days before landing and should include and at mention to the
+nodejs/TSC for awareness. They should be removed through the same process
+when no longer relevant.
+
+### Current messages for promotion
+
+#### Sample message (Leave this one at the top)
+
+##### Goal
+
+The goal is to raise awareness of XYZ in the JavaScript ecosystem.
+
+#### Related Links
+
+List of links with more information about the topic to provide brackground
+or the information to be shared.
+
+#### Project contacts
+
+Add a list of GitHub handles for those within the project that
+have volunteered to be contacated when necessary by ambassadors
+to get more info about the message to be promoted.

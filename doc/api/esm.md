@@ -12,6 +12,9 @@ changes:
     - v18.20.5
     pr-url: https://github.com/nodejs/node/pull/55333
     description: Import attributes are no longer experimental.
+  - version: v22.0.0
+    pr-url: https://github.com/nodejs/node/pull/52104
+    description: Drop support for import assertions.
   - version:
     - v21.0.0
     - v20.10.0
@@ -508,7 +511,7 @@ module default import or its corresponding sugar syntax:
 
 ```js
 import { default as cjs } from 'cjs';
-// identical to the above
+// Identical to the above
 import cjsSugar from 'cjs';
 
 console.log(cjs);
