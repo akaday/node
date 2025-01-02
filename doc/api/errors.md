@@ -2155,6 +2155,12 @@ An attempt was made to open an IPC communication channel with a synchronously
 forked Node.js process. See the documentation for the [`child_process`][] module
 for more information.
 
+<a id="ERR_IP_BLOCKED"></a>
+
+### `ERR_IP_BLOCKED`
+
+IP is blocked by `net.BlockList`.
+
 <a id="ERR_LOADER_CHAIN_INCOMPLETE"></a>
 
 ### `ERR_LOADER_CHAIN_INCOMPLETE`
@@ -2167,6 +2173,16 @@ added:
 
 An ESM loader hook returned without calling `next()` and without explicitly
 signaling a short circuit.
+
+<a id="ERR_LOAD_SQLITE_EXTENSION"></a>
+
+### `ERR_LOAD_SQLITE_EXTENSION`
+
+<!-- YAML
+added: v23.5.0
+-->
+
+An error occurred while loading a SQLite extension.
 
 <a id="ERR_MEMORY_ALLOCATION_FAILED"></a>
 
@@ -2337,7 +2353,9 @@ compiled with ICU support.
 ### `ERR_NO_TYPESCRIPT`
 
 <!-- YAML
-added: v23.0.0
+added:
+  - v23.0.0
+  - v22.12.0
 -->
 
 An attempt was made to use features that require [Native TypeScript support][], but Node.js was not
@@ -2441,7 +2459,7 @@ object.
 ### `ERR_QUIC_APPLICATION_ERROR`
 
 <!-- YAML
-added: REPLACEME
+added: v23.4.0
 -->
 
 > Stability: 1 - Experimental
@@ -2495,7 +2513,7 @@ Opening a QUIC stream failed.
 ### `ERR_QUIC_TRANSPORT_ERROR`
 
 <!-- YAML
-added: REPLACEME
+added: v23.4.0
 -->
 
 > Stability: 1 - Experimental
@@ -2507,7 +2525,7 @@ A QUIC transport error occurred.
 ### `ERR_QUIC_VERSION_NEGOTIATION_ERROR`
 
 <!-- YAML
-added: REPLACEME
+added: v23.4.0
 -->
 
 > Stability: 1 - Experimental
@@ -2548,7 +2566,9 @@ module, and should be done lazily in an inner function.
 
 <!-- YAML
 changes:
-  - version: v23.0.0
+  - version:
+    - v23.0.0
+    - v22.12.0
     pr-url: https://github.com/nodejs/node/pull/55085
     description: require() now supports loading synchronous ES modules by default.
 -->

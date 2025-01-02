@@ -420,8 +420,8 @@ By default, Node.js will run all files matching these patterns:
 * `**/test.{cjs,mjs,js}`
 * `**/test/**/*.{cjs,mjs,js}`
 
-When [`--experimental-strip-types`][] is supplied, the following
-additional patterns are matched:
+Unless [`--no-experimental-strip-types`][] is supplied, the following
+additional patterns are also matched:
 
 * `**/*.test.{cts,mts,ts}`
 * `**/*-test.{cts,mts,ts}`
@@ -476,8 +476,10 @@ all tests have completed. If the [`NODE_V8_COVERAGE`][] environment variable is
 used to specify a code coverage directory, the generated V8 coverage files are
 written to that directory. Node.js core modules and files within
 `node_modules/` directories are, by default, not included in the coverage report.
-However, they can be explicitly included via the [`--test-coverage-include`][] flag. If
-coverage is enabled, the coverage report is sent to any [test reporters][] via
+However, they can be explicitly included via the [`--test-coverage-include`][] flag.
+By default all the matching test files are excluded from the coverage report.
+Exclusions can be overridden by using the [`--test-coverage-exclude`][] flag.
+If coverage is enabled, the coverage report is sent to any [test reporters][] via
 the `'test:coverage'` event.
 
 Coverage can be disabled on a series of lines using the following
@@ -3345,7 +3347,7 @@ added:
   - v22.2.0
   - v20.15.0
 changes:
-  - version: REPLACEME
+  - version: v23.4.0
     pr-url: https://github.com/nodejs/node/pull/55895
     description: This function is no longer experimental.
 -->
@@ -3589,11 +3591,12 @@ added:
 Can be used to abort test subtasks when the test has been aborted.
 
 [TAP]: https://testanything.org/
-[`--experimental-strip-types`]: cli.md#--experimental-strip-types
 [`--experimental-test-coverage`]: cli.md#--experimental-test-coverage
 [`--experimental-test-module-mocks`]: cli.md#--experimental-test-module-mocks
 [`--import`]: cli.md#--importmodule
+[`--no-experimental-strip-types`]: cli.md#--no-experimental-strip-types
 [`--test-concurrency`]: cli.md#--test-concurrency
+[`--test-coverage-exclude`]: cli.md#--test-coverage-exclude
 [`--test-coverage-include`]: cli.md#--test-coverage-include
 [`--test-name-pattern`]: cli.md#--test-name-pattern
 [`--test-only`]: cli.md#--test-only

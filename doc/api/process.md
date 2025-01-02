@@ -1930,7 +1930,7 @@ A boolean value that is `true` if the current Node.js build includes the inspect
 
 <!-- YAML
 added: v0.5.3
-deprecated: REPLACEME
+deprecated: v23.4.0
 -->
 
 > Stability: 0 - Deprecated. This property is always true, and any checks based on it are
@@ -1969,7 +1969,7 @@ A boolean value that is `true` if the current Node.js build includes support for
 
 <!-- YAML
 added: v4.8.0
-deprecated: REPLACEME
+deprecated: v23.4.0
 -->
 
 > Stability: 0 - Deprecated. Use `process.features.tls` instead.
@@ -1985,7 +1985,7 @@ This value is therefore identical to that of `process.features.tls`.
 
 <!-- YAML
 added: v0.11.13
-deprecated: REPLACEME
+deprecated: v23.4.0
 -->
 
 > Stability: 0 - Deprecated. Use `process.features.tls` instead.
@@ -2001,7 +2001,7 @@ This value is therefore identical to that of `process.features.tls`.
 
 <!-- YAML
 added: v0.5.3
-deprecated: REPLACEME
+deprecated: v23.4.0
 -->
 
 > Stability: 0 - Deprecated. Use `process.features.tls` instead.
@@ -2025,14 +2025,15 @@ added:
 
 * {boolean|string}
 
-A value that is `"strip"` if Node.js is run with `--experimental-strip-types`,
-`"transform"` if Node.js is run with `--experimental-transform-types`, and `false` otherwise.
+A value that is `"strip"` by default,
+`"transform"` if Node.js is run with `--experimental-transform-types`, and `false` if
+Node.js is run with `--no-experimental-strip-types`.
 
 ## `process.features.uv`
 
 <!-- YAML
 added: v0.5.3
-deprecated: REPLACEME
+deprecated: v23.4.0
 -->
 
 > Stability: 0 - Deprecated. This property is always true, and any checks based on it are
@@ -3107,7 +3108,7 @@ added: v20.0.0
 
 * {Object}
 
-This API is available through the [`--experimental-permission`][] flag.
+This API is available through the [`--permission`][] flag.
 
 `process.permission` is an object whose methods are used to manage permissions
 for the current process. Additional documentation is available in the
@@ -3230,6 +3231,23 @@ const { ppid } = require('node:process');
 
 console.log(`The parent process is pid ${ppid}`);
 ```
+
+## `process.ref(maybeRefable)`
+
+<!-- YAML
+added: REPLACEME
+-->
+
+* `maybeRefable` {any} An object that may be "refable".
+
+An object is "refable" if it implements the Node.js "Refable protocol".
+Specifically, this means that the object implements the `Symbol.for('node:ref')`
+and `Symbol.for('node:unref')` methods. "Ref'd" objects will keep the Node.js
+event loop alive, while "unref'd" objects will not. Historically, this was
+implemented by using `ref()` and `unref()` methods directly on the objects.
+This pattern, however, is being deprecated in favor of the "Refable protocol"
+in order to better support Web Platform API types whose APIs cannot be modified
+to add `ref()` and `unref()` methods but still need to support that behavior.
 
 ## `process.release`
 
@@ -4271,6 +4289,23 @@ console.log(
 
 In [`Worker`][] threads, `process.umask(mask)` will throw an exception.
 
+## `process.unref(maybeRefable)`
+
+<!-- YAML
+added: REPLACEME
+-->
+
+* `maybeUnfefable` {any} An object that may be "unref'd".
+
+An object is "unrefable" if it implements the Node.js "Refable protocol".
+Specifically, this means that the object implements the `Symbol.for('node:ref')`
+and `Symbol.for('node:unref')` methods. "Ref'd" objects will keep the Node.js
+event loop alive, while "unref'd" objects will not. Historically, this was
+implemented by using `ref()` and `unref()` methods directly on the objects.
+This pattern, however, is being deprecated in favor of the "Refable protocol"
+in order to better support Web Platform API types whose APIs cannot be modified
+to add `ref()` and `unref()` methods but still need to support that behavior.
+
 ## `process.uptime()`
 
 <!-- YAML
@@ -4444,8 +4479,8 @@ cases:
 [`'exit'`]: #event-exit
 [`'message'`]: child_process.md#event-message
 [`'uncaughtException'`]: #event-uncaughtexception
-[`--experimental-permission`]: cli.md#--experimental-permission
 [`--no-deprecation`]: cli.md#--no-deprecation
+[`--permission`]: cli.md#--permission
 [`--unhandled-rejections`]: cli.md#--unhandled-rejectionsmode
 [`Buffer`]: buffer.md
 [`ChildProcess.disconnect()`]: child_process.md#subprocessdisconnect

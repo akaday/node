@@ -9,6 +9,7 @@ added: v8.5.0
 changes:
   - version:
     - v23.1.0
+    - v22.12.0
     - v18.20.5
     pr-url: https://github.com/nodejs/node/pull/55333
     description: Import attributes are no longer experimental.
@@ -124,14 +125,13 @@ Node.js has two module systems: [CommonJS][] modules and ECMAScript modules.
 
 Authors can tell Node.js to interpret JavaScript as an ES module via the `.mjs`
 file extension, the `package.json` [`"type"`][] field with a value `"module"`,
-the [`--input-type`][] flag with a value of `"module"`, or the
-[`--experimental-default-type`][] flag with a value of `"module"`. These are
-explicit markers of code being intended to run as an ES module.
+or the [`--input-type`][] flag with a value of `"module"`. These are explicit
+markers of code being intended to run as an ES module.
 
-Inversely, authors can tell Node.js to interpret JavaScript as CommonJS via the
-`.cjs` file extension, the `package.json` [`"type"`][] field with a value
-`"commonjs"`, the [`--input-type`][] flag with a value of `"commonjs"`, or the
-[`--experimental-default-type`][] flag with a value of `"commonjs"`.
+Inversely, authors can explicitly tell Node.js to interpret JavaScript as
+CommonJS via the `.cjs` file extension, the `package.json` [`"type"`][] field
+with a value `"commonjs"`, or the [`--input-type`][] flag with a value of
+`"commonjs"`.
 
 When code lacks explicit markers for either module system, Node.js will inspect
 the source code of a module to look for ES module syntax. If such syntax is
@@ -343,7 +343,7 @@ modules it can be used to load ES modules.
 * {Object}
 
 The `import.meta` meta property is an `Object` that contains the following
-properties.
+properties. It is only supported in ES modules.
 
 ### `import.meta.dirname`
 
@@ -640,6 +640,7 @@ separate cache.
 changes:
   - version:
     - v23.1.0
+    - v22.12.0
     - v18.20.5
     pr-url: https://github.com/nodejs/node/pull/55333
     description: JSON modules are no longer experimental.
@@ -1044,18 +1045,21 @@ _isImports_, _conditions_)
 > 5. If `--experimental-wasm-modules` is enabled and _url_ ends in
 >    _".wasm"_, then
 >    1. Return _"wasm"_.
-> 6. Let _packageURL_ be the result of **LOOKUP\_PACKAGE\_SCOPE**(_url_).
-> 7. Let _pjson_ be the result of **READ\_PACKAGE\_JSON**(_packageURL_).
-> 8. Let _packageType_ be **null**.
-> 9. If _pjson?.type_ is _"module"_ or _"commonjs"_, then
->    1. Set _packageType_ to _pjson.type_.
-> 10. If _url_ ends in _".js"_, then
+> 6. If `--experimental-addon-modules` is enabled and _url_ ends in
+>    _".node"_, then
+>    1. Return _"addon"_.
+> 7. Let _packageURL_ be the result of **LOOKUP\_PACKAGE\_SCOPE**(_url_).
+> 8. Let _pjson_ be the result of **READ\_PACKAGE\_JSON**(_packageURL_).
+> 9. Let _packageType_ be **null**.
+> 10. If _pjson?.type_ is _"module"_ or _"commonjs"_, then
+>     1. Set _packageType_ to _pjson.type_.
+> 11. If _url_ ends in _".js"_, then
 >     1. If _packageType_ is not **null**, then
 >        1. Return _packageType_.
 >     2. If the result of **DETECT\_MODULE\_SYNTAX**(_source_) is true, then
 >        1. Return _"module"_.
 >     3. Return _"commonjs"_.
-> 11. If _url_ does not have any extension, then
+> 12. If _url_ does not have any extension, then
 >     1. If _packageType_ is _"module"_ and `--experimental-wasm-modules` is
 >        enabled and the file at _url_ contains the header for a WebAssembly
 >        module, then
@@ -1065,7 +1069,7 @@ _isImports_, _conditions_)
 >     3. If the result of **DETECT\_MODULE\_SYNTAX**(_source_) is true, then
 >        1. Return _"module"_.
 >     4. Return _"commonjs"_.
-> 12. Return **undefined** (will throw during load phase).
+> 13. Return **undefined** (will throw during load phase).
 
 **LOOKUP\_PACKAGE\_SCOPE**(_url_)
 
@@ -1124,7 +1128,6 @@ resolution for ESM specifiers is [commonjs-extension-resolution-loader][].
 [URL]: https://url.spec.whatwg.org/
 [`"exports"`]: packages.md#exports
 [`"type"`]: packages.md#type
-[`--experimental-default-type`]: cli.md#--experimental-default-typetype
 [`--input-type`]: cli.md#--input-typetype
 [`data:` URLs]: https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Data_URIs
 [`export`]: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/export

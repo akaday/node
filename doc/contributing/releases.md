@@ -282,7 +282,15 @@ You can integrate the PRs into the proposal without running full CI.
 
 ### 2. Create a new branch for the release
 
-⚠️ At this point, you can either run `git node release --prepare`:
+> \[!TIP] Once the staging branch is up-to-date you can use the
+> [`create-release-proposal`][] action to generate the proposal.
+
+```bash
+gh workflow run "Create Release Proposal" -f release-line=N -f release-date=YYYY-MM-DD
+```
+
+If you prefer to run it locally you can either run
+`git node release --prepare`:
 
 ```bash
 git node release -S --prepare x.y.z
@@ -958,6 +966,13 @@ a `NODEJS_RELEASE_HOST` environment variable:
 NODEJS_RELEASE_HOST=proxy.xyz ./tools/release.sh
 ```
 
+In case `gpg` is unable to autoselect a key, you can retry using the
+`-a` option to enable an interactive interface:
+
+```bash
+./tools/release.sh -a
+```
+
 > \[!TIP]
 > Sometimes, due to machines being overloaded or other external factors,
 > the files at <https://nodejs.org/dist/index.json>, <https://nodejs.org/dist/index.tab>
@@ -1075,19 +1090,17 @@ This script will use the promoted builds and changelog to generate the post. Run
 ### 19. Announce
 
 The nodejs.org website will automatically rebuild and include the new version.
-To announce the build on Twitter through the official @nodejs account, email
-<pr@nodejs.org> with a message such as:
+To announce the build on social media, please ping the @nodejs-social-team
+on offical slack channel.
+
+Node.js is also available on Bluesky and a release announcement can be
+reposted using [nodejs/bluesky](https://github.com/nodejs/bluesky) repository.
+
+The post content can be as simple as:
 
 > v5.8.0 of @nodejs is out: <https://nodejs.org/en/blog/release/v5.8.0/>
 > …
 > something here about notable changes
-
-To ensure communication goes out with the timing of the blog post, please allow
-24 hour prior notice. If known, please include the date and time the release
-will be shared with the community in the email to coordinate these
-announcements.
-
-Ping the IRC ops and the other [Partner Communities][] liaisons.
 
 <details>
 <summary>Security release</summary>
@@ -1422,9 +1435,9 @@ Typical resolution: sign the release again.
 [Build issue tracker]: https://github.com/nodejs/build/issues/new
 [CI lockdown procedure]: https://github.com/nodejs/build/blob/HEAD/doc/jenkins-guide.md#restricting-access-for-security-releases
 [Node.js Snap management repository]: https://github.com/nodejs/snap
-[Partner Communities]: https://github.com/nodejs/community-committee/blob/HEAD/governance/PARTNER_COMMUNITIES.md
 [Snap]: https://snapcraft.io/node
+[`create-release-proposal`]: https://github.com/nodejs/node/actions/workflows/create-release-proposal.yml
 [build-infra team]: https://github.com/orgs/nodejs/teams/build-infra
 [expected assets]: https://github.com/nodejs/build/tree/HEAD/ansible/www-standalone/tools/promote/expected_assets
-[nodejs.org release-post.js script]: https://github.com/nodejs/nodejs.org/blob/HEAD/scripts/release-post/index.mjs
+[nodejs.org release-post.js script]: https://github.com/nodejs/nodejs.org/blob/HEAD/apps/site/scripts/release-post/index.mjs
 [nodejs.org repository]: https://github.com/nodejs/nodejs.org

@@ -294,6 +294,7 @@ coverage-report-js: ## Report JavaScript coverage results.
 cctest: all ## Run the C++ tests using the built `cctest` executable.
 	@out/$(BUILDTYPE)/$@ --gtest_filter=$(GTEST_FILTER)
 	$(NODE) ./test/embedding/test-embedding.js
+	$(NODE) ./test/sqlite/test-sqlite-extensions.mjs
 
 .PHONY: list-gtests
 list-gtests: ## List all available C++ gtests.
@@ -574,6 +575,7 @@ test-ci: | clear-stalled bench-addons-build build-addons build-js-native-api-tes
 		--mode=$(BUILDTYPE_LOWER) --flaky-tests=$(FLAKY_TESTS) \
 		$(TEST_CI_ARGS) $(CI_JS_SUITES) $(CI_NATIVE_SUITES) $(CI_DOC)
 	$(NODE) ./test/embedding/test-embedding.js
+	$(NODE) ./test/sqlite/test-sqlite-extensions.mjs
 	$(info Clean up any leftover processes, error if found.)
 	ps awwx | grep Release/node | grep -v grep | cat
 	@PS_OUT=`ps awwx | grep Release/node | grep -v grep | awk '{print $$1}'`; \
@@ -932,7 +934,11 @@ else
 ifeq ($(findstring riscv64,$(UNAME_M)),riscv64)
 DESTCPU ?= riscv64
 else
+ifeq ($(findstring loongarch64,$(UNAME_M)),loongarch64)
+DESTCPU ?= loong64
+else
 DESTCPU ?= x86
+endif
 endif
 endif
 endif
@@ -969,7 +975,11 @@ else
 ifeq ($(DESTCPU),riscv64)
 ARCH=riscv64
 else
+ifeq ($(DESTCPU),loong64)
+ARCH=loong64
+else
 ARCH=x86
+endif
 endif
 endif
 endif
@@ -1432,6 +1442,7 @@ LINT_CPP_FILES = $(filter-out $(LINT_CPP_EXCLUDE), $(wildcard \
 	test/cctest/*.h \
 	test/embedding/*.cc \
 	test/embedding/*.h \
+	test/sqlite/*.c \
 	test/fixtures/*.c \
 	test/js-native-api/*/*.cc \
 	test/node-api/*/*.cc \
