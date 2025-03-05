@@ -1734,7 +1734,9 @@ describe('tests', async () => {
 ## `assert`
 
 <!-- YAML
-added: v23.7.0
+added:
+  - v23.7.0
+  - v22.14.0
 -->
 
 An object whose methods are used to configure available assertions on the
@@ -1748,7 +1750,9 @@ preloaded with `--require` or `--import`.
 ### `assert.register(name, fn)`
 
 <!-- YAML
-added: v23.7.0
+added:
+  - v23.7.0
+  - v22.14.0
 -->
 
 Defines a new assertion function with the provided name and function. If an
@@ -3258,7 +3262,9 @@ test('test', (t) => {
 #### `context.assert.fileSnapshot(value, path[, options])`
 
 <!-- YAML
-added: v23.7.0
+added:
+  - v23.7.0
+  - v22.14.0
 -->
 
 * `value` {any} A value to serialize to a string. If Node.js was started with
@@ -3375,13 +3381,17 @@ added:
 
 The name of the test.
 
-### `context.plan(count)`
+### `context.plan(count[,options])`
 
 <!-- YAML
 added:
   - v22.2.0
   - v20.15.0
 changes:
+  - version:
+    - v23.9.0
+    pr-url: https://github.com/nodejs/node/pull/56765
+    description: Add the `options` parameter.
   - version:
     - v23.4.0
     - v22.13.0
@@ -3390,6 +3400,16 @@ changes:
 -->
 
 * `count` {number} The number of assertions and subtests that are expected to run.
+* `options` {Object} Additional options for the plan.
+  * `wait` {boolean|number} The wait time for the plan:
+    * If `true`, the plan waits indefinitely for all assertions and subtests to run.
+    * If `false`, the plan performs an immediate check after the test function completes,
+      without waiting for any pending assertions or subtests.
+      Any assertions or subtests that complete after this check will not be counted towards the plan.
+    * If a number, it specifies the maximum wait time in milliseconds
+      before timing out while waiting for expected assertions and subtests to be matched.
+      If the timeout is reached, the test will fail.
+      **Default:** `false`.
 
 This function is used to set the number of assertions and subtests that are expected to run
 within the test. If the number of assertions and subtests that run does not match the
@@ -3427,6 +3447,26 @@ test('planning with streams', (t, done) => {
   });
 });
 ```
+
+When using the `wait` option, you can control how long the test will wait for the expected assertions.
+For example, setting a maximum wait time ensures that the test will wait for asynchronous assertions
+to complete within the specified timeframe:
+
+```js
+test('plan with wait: 2000 waits for async assertions', (t) => {
+  t.plan(1, { wait: 2000 }); // Waits for up to 2 seconds for the assertion to complete.
+
+  const asyncActivity = () => {
+    setTimeout(() => {
+      t.assert.ok(true, 'Async assertion completed within the wait time');
+    }, 1000); // Completes after 1 second, within the 2-second wait time.
+  };
+
+  asyncActivity(); // The test will pass because the assertion is completed in time.
+});
+```
+
+Note: If a `wait` timeout is specified, it begins counting down only after the test function finishes executing.
 
 ### `context.runOnly(shouldRunOnlyTests)`
 
@@ -3587,7 +3627,9 @@ test('top level test', async (t) => {
 ### `context.waitFor(condition[, options])`
 
 <!-- YAML
-added: v23.7.0
+added:
+  - v23.7.0
+  - v22.14.0
 -->
 
 * `condition` {Function|AsyncFunction} An assertion function that is invoked

@@ -335,6 +335,8 @@ For information about the governance of the Node.js project, see
   **Gerhard Stöbich** <<deb2001-github@yahoo.de>> (he/they)
 * [gabrielschulhof](https://github.com/gabrielschulhof) -
   **Gabriel Schulhof** <<gabrielschulhof@gmail.com>>
+* [geeksilva97](https://github.com/geeksilva97) -
+  **Edy Silva** <<edigleyssonsilva@gmail.com>> (he/him)
 * [gengjiawen](https://github.com/gengjiawen) -
   **Jiawen Geng** <<technicalcute@gmail.com>>
 * [GeoffreyBooth](https://github.com/GeoffreyBooth) -
@@ -358,7 +360,7 @@ For information about the governance of the Node.js project, see
 * [jazelly](https://github.com/jazelly) -
   **Jason Zhang** <<xzha4350@gmail.com>> (he/him)
 * [jkrems](https://github.com/jkrems) -
-  **Jan Krems** <<jan.krems@gmail.com>> (he/him)
+  **Jan Martin** <<jan.krems@gmail.com>> (he/him)
 * [joyeecheung](https://github.com/joyeecheung) -
   **Joyee Cheung** <<joyeec9h3@gmail.com>> (she/her)
 * [juanarbol](https://github.com/juanarbol) -
@@ -731,6 +733,8 @@ maintaining the Node.js project.
 
 ### Triagers
 
+* [1ilsang](https://github.com/1ilsang) -
+  **Sangchul Lee** <<1ilsang.dev@gmail.com>> (he/him)
 * [atlowChemi](https://github.com/atlowChemi) -
   **Chemi Atlow** <<chemi@atlow.co.il>> (he/him)
 * [Ayase-252](https://github.com/Ayase-252) -

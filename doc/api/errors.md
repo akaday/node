@@ -2096,7 +2096,9 @@ added:
  - v23.0.0
  - v22.10.0
 changes:
-    - version: v23.7.0
+    - version:
+      - v23.7.0
+      - v22.14.0
       pr-url: https://github.com/nodejs/node/pull/56610
       description: This error is no longer thrown on valid yet unsupported syntax.
 -->
@@ -2382,6 +2384,16 @@ added: v15.0.0
 
 An operation failed. This is typically used to signal the general failure
 of an asynchronous operation.
+
+<a id="ERR_OPTIONS_BEFORE_BOOTSTRAPPING"></a>
+
+### `ERR_OPTIONS_BEFORE_BOOTSTRAPPING`
+
+<!-- YAML
+added: REPLACEME
+-->
+
+An attempt was made to get options before the bootstrapping was completed.
 
 <a id="ERR_OUT_OF_RANGE"></a>
 
@@ -2723,6 +2735,17 @@ The source map could not be parsed because it does not exist, or is corrupt.
 ### `ERR_SOURCE_MAP_MISSING_SOURCE`
 
 A file imported from a source map was not found.
+
+<a id="ERR_SOURCE_PHASE_NOT_DEFINED"></a>
+
+### `ERR_SOURCE_PHASE_NOT_DEFINED`
+
+<!-- YAML
+added: REPLACEME
+-->
+
+The provided module import does not provide a source phase imports representation for source phase
+import syntax `import source x from 'x'` or `import.source(x)`.
 
 <a id="ERR_SQLITE_ERROR"></a>
 
@@ -3130,7 +3153,9 @@ try {
 ### `ERR_UNSUPPORTED_TYPESCRIPT_SYNTAX`
 
 <!-- YAML
-added: v23.7.0
+added:
+  - v23.7.0
+  - v22.14.0
 -->
 
 The provided TypeScript syntax is unsupported.
@@ -3333,6 +3358,12 @@ The requested functionality is not supported in worker threads.
 ### `ERR_ZLIB_INITIALIZATION_FAILED`
 
 Creation of a [`zlib`][] object failed due to incorrect configuration.
+
+<a id="ERR_ZSTD_INVALID_PARAM"></a>
+
+### `ERR_ZSTD_INVALID_PARAM`
+
+An invalid parameter key was passed during construction of a Zstd stream.
 
 <a id="HPE_CHUNK_EXTENSIONS_OVERFLOW"></a>
 

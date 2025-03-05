@@ -14,9 +14,14 @@ const jsPrimitives = {
 const jsGlobalObjectsUrl = `${jsDocPrefix}Reference/Global_Objects/`;
 const jsGlobalTypes = [
   'AggregateError', 'Array', 'ArrayBuffer', 'DataView', 'Date', 'Error',
-  'EvalError', 'Function', 'Map', 'Object', 'Promise', 'Proxy', 'RangeError',
-  'ReferenceError', 'RegExp', 'Set', 'SharedArrayBuffer', 'SyntaxError',
-  'TypeError', 'TypedArray', 'URIError', 'Uint8Array',
+  'EvalError', 'Function', 'Map', 'NaN', 'Object', 'Promise', 'Proxy', 'RangeError',
+  'ReferenceError', 'RegExp', 'Set', 'SharedArrayBuffer', 'SyntaxError', 'Symbol',
+  'TypeError', 'URIError', 'WeakMap', 'WeakSet',
+
+  'TypedArray',
+  'Float32Array', 'Float64Array',
+  'Int8Array', 'Int16Array', 'Int32Array',
+  'Uint8Array', 'Uint8ClampedArray', 'Uint16Array', 'Uint32Array',
 ];
 
 const customTypesMap = {
@@ -70,8 +75,8 @@ const customTypesMap = {
 
   'cluster.Worker': 'cluster.html#class-worker',
 
-  'Cipher': 'crypto.html#class-cipher',
-  'Decipher': 'crypto.html#class-decipher',
+  'Cipheriv': 'crypto.html#class-cipheriv',
+  'Decipheriv': 'crypto.html#class-decipheriv',
   'DiffieHellman': 'crypto.html#class-diffiehellman',
   'DiffieHellmanGroup': 'crypto.html#class-diffiehellmangroup',
   'ECDH': 'crypto.html#class-ecdh',
@@ -247,6 +252,7 @@ const customTypesMap = {
   'X509Certificate': 'crypto.html#class-x509certificate',
 
   'zlib options': 'zlib.html#class-options',
+  'zstd options': 'zlib.html#class-zstdoptions',
 
   'ReadableStream':
     'webstreams.html#class-readablestream',

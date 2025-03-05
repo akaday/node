@@ -580,7 +580,9 @@ property throw an exception with the code `ERR_PROTO_ACCESS`.
 ### `--disable-sigusr1`
 
 <!-- YAML
-added: v23.7.0
+added:
+  - v23.7.0
+  - v22.14.0
 -->
 
 > Stability: 1.2 - Release candidate
@@ -590,13 +592,13 @@ Disable the ability of starting a debugging session by sending a
 
 ### `--disable-warning=code-or-type`
 
-> Stability: 1.1 - Active development
-
 <!-- YAML
 added:
   - v21.3.0
   - v20.11.0
 -->
+
+> Stability: 1.1 - Active development
 
 Disable specific process warnings by `code` or `type`.
 
@@ -800,18 +802,16 @@ node --entry-url 'data:text/javascript,console.log("Hello")'
 
 ### `--env-file-if-exists=config`
 
-> Stability: 1.1 - Active development
-
 <!-- YAML
 added: v22.9.0
 -->
+
+> Stability: 1.1 - Active development
 
 Behavior is the same as [`--env-file`][], but an error is not thrown if the file
 does not exist.
 
 ### `--env-file=config`
-
-> Stability: 1.1 - Active development
 
 <!-- YAML
 added: v20.6.0
@@ -822,6 +822,8 @@ changes:
     pr-url: https://github.com/nodejs/node/pull/51289
     description: Add support to multi-line values.
 -->
+
+> Stability: 1.1 - Active development
 
 Loads environment variables from a file relative to the current directory,
 making them available to applications on `process.env`. The [environment
@@ -909,6 +911,84 @@ added: v23.6.0
 
 Enable experimental import support for `.node` addons.
 
+### `--experimental-config-file=config`
+
+<!-- YAML
+added: REPLACEME
+-->
+
+> Stability: 1.0 - Early development
+
+If present, Node.js will look for a
+configuration file at the specified path.
+Node.js will read the configuration file and apply the settings.
+The configuration file should be a JSON file
+with the following structure:
+
+> \[!NOTE]
+> Replace `vX.Y.Z` in the `$schema` with the version of Node.js you are using.
+
+```json
+{
+  "$schema": "https://nodejs.org/dist/vX.Y.Z/docs/node-config-schema.json",
+  "nodeOptions": {
+    "import": [
+      "amaro/strip"
+    ],
+    "watch-path": "src",
+    "watch-preserve-output": true
+  }
+}
+```
+
+In the `nodeOptions` field, only flags that are allowed in [`NODE_OPTIONS`][] are supported.
+No-op flags are not supported.
+Not all V8 flags are currently supported.
+
+It is possible to use the [official JSON schema](../node-config-schema.json)
+to validate the configuration file, which may vary depending on the Node.js version.
+Each key in the configuration file corresponds to a flag that can be passed
+as a command-line argument. The value of the key is the value that would be
+passed to the flag.
+
+For example, the configuration file above is equivalent to
+the following command-line arguments:
+
+```bash
+node --import amaro/strip --watch-path=src --watch-preserve-output
+```
+
+The priority in configuration is as follows:
+
+1. NODE\_OPTIONS and command-line options
+2. Configuration file
+3. Dotenv NODE\_OPTIONS
+
+Values in the configuration file will not override the values in the environment
+variables and command-line options, but will override the values in the `NODE_OPTIONS`
+env file parsed by the `--env-file` flag.
+
+If duplicate keys are present in the configuration file, only
+the first key will be used.
+
+The configuration parser will throw an error if the configuration file contains
+unknown keys or keys that cannot used in `NODE_OPTIONS`.
+
+Node.js will not sanitize or perform validation on the user-provided configuration,
+so **NEVER** use untrusted configuration files.
+
+### `--experimental-default-config-file`
+
+<!-- YAML
+added: REPLACEME
+-->
+
+> Stability: 1.0 - Early development
+
+If the `--experimental-default-config-file` flag is present, Node.js will look for a
+`node.config.json` file in the current working directory and load it as a
+as configuration file.
+
 ### `--experimental-eventsource`
 
 <!-- YAML
@@ -990,14 +1070,6 @@ added:
 If the ES module being `require()`'d contains top-level `await`, this flag
 allows Node.js to evaluate the module, try to locate the
 top-level awaits, and print their location to help users find them.
-
-### `--experimental-quic`
-
-<!--
-added: REPLACEME
--->
-
-Enables the experimental `node:quic` built-in module.
 
 ### `--experimental-require-module`
 
@@ -2866,9 +2938,53 @@ The following values are valid for `mode`:
 ### `--use-system-ca`
 
 Node.js uses the trusted CA certificates present in the system store along with
-the `--use-bundled-ca`, `--use-openssl-ca` options.
+the `--use-bundled-ca` option and the `NODE_EXTRA_CA_CERTS` environment variable.
+On platforms other than Windows and macOS, this loads certificates from the directory
+and file trusted by OpenSSL, similar to `--use-openssl-ca`, with the difference being
+that it caches the certificates after first load.
 
-This option is available to macOS only.
+On Windows and macOS, the certificate trust policy is planned to follow
+[Chromium's policy for locally trusted certificates][]:
+
+On macOS, the following settings are respected:
+
+* Default and System Keychains
+  * Trust:
+    * Any certificate where the “When using this certificate” flag is set to “Always Trust” or
+    * Any certificate where the “Secure Sockets Layer (SSL)” flag is set to “Always Trust.”
+  * Distrust:
+    * Any certificate where the “When using this certificate” flag is set to “Never Trust” or
+    * Any certificate where the “Secure Sockets Layer (SSL)” flag is set to “Never Trust.”
+
+On Windows, the following settings are respected (unlike Chromium's policy, distrust
+and intermediate CA are not currently supported):
+
+* Local Machine (accessed via `certlm.msc`)
+  * Trust:
+    * Trusted Root Certification Authorities
+    * Trusted People
+    * Enterprise Trust -> Enterprise -> Trusted Root Certification Authorities
+    * Enterprise Trust -> Enterprise -> Trusted People
+    * Enterprise Trust -> Group Policy -> Trusted Root Certification Authorities
+    * Enterprise Trust -> Group Policy -> Trusted People
+* Current User (accessed via `certmgr.msc`)
+  * Trust:
+    * Trusted Root Certification Authorities
+    * Enterprise Trust -> Group Policy -> Trusted Root Certification Authorities
+
+On Windows and macOS, Node.js would check that the user settings for the certificates
+do not forbid them for TLS server authentication before using them.
+
+On other systems, Node.js loads certificates from the default certificate file
+(typically `/etc/ssl/cert.pem`) and default certificate directory (typically
+`/etc/ssl/certs`) that the version of OpenSSL that Node.js links to respects.
+This typically works with the convention on major Linux distributions and other
+Unix-like systems. If the overriding OpenSSL environment variables
+(typically `SSL_CERT_FILE` and `SSL_CERT_DIR`, depending on the configuration
+of the OpenSSL that Node.js links to) are set, the specified paths will be used to load
+certificates instead. These environment variables can be used as workarounds
+if the conventional paths used by the version of OpenSSL Node.js links to are
+not consistent with the system configuration that the users have for some reason.
 
 ### `--v8-options`
 
@@ -3138,6 +3254,10 @@ one is included in the list below.
 * `--allow-wasi`
 * `--allow-worker`
 * `--conditions`, `-C`
+* `--cpu-prof-dir`
+* `--cpu-prof-interval`
+* `--cpu-prof-name`
+* `--cpu-prof`
 * `--diagnostic-dir`
 * `--disable-proto`
 * `--disable-sigusr1`
@@ -3157,7 +3277,6 @@ one is included in the list below.
 * `--experimental-loader`
 * `--experimental-modules`
 * `--experimental-print-required-tla`
-* `--experimental-quic`
 * `--experimental-require-module`
 * `--experimental-shadow-realm`
 * `--experimental-specifier-resolution`
@@ -3509,7 +3628,8 @@ variable is ignored.
 added: v7.7.0
 -->
 
-If `--use-openssl-ca` is enabled, this overrides and sets OpenSSL's directory
+If `--use-openssl-ca` is enabled, or if `--use-system-ca` is enabled on
+platforms other than macOS and Windows, this overrides and sets OpenSSL's directory
 containing trusted certificates.
 
 Be aware that unless the child environment is explicitly set, this environment
@@ -3522,7 +3642,8 @@ may cause them to trust the same CAs as node.
 added: v7.7.0
 -->
 
-If `--use-openssl-ca` is enabled, this overrides and sets OpenSSL's file
+If `--use-openssl-ca` is enabled, or if `--use-system-ca` is enabled on
+platforms other than macOS and Windows, this overrides and sets OpenSSL's file
 containing trusted certificates.
 
 Be aware that unless the child environment is explicitly set, this environment
@@ -3688,6 +3809,7 @@ node --stack-trace-limit=12 -p -e "Error.stackTraceLimit" # prints 12
 
 [#42511]: https://github.com/nodejs/node/issues/42511
 [Chrome DevTools Protocol]: https://chromedevtools.github.io/devtools-protocol/
+[Chromium's policy for locally trusted certificates]: https://chromium.googlesource.com/chromium/src/+/main/net/data/ssl/chrome_root_store/faq.md#does-the-chrome-certificate-verifier-consider-local-trust-decisions
 [CommonJS]: modules.md
 [CommonJS module]: modules.md
 [DEP0025 warning]: deprecations.md#dep0025-requirenodesys

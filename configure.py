@@ -38,7 +38,6 @@ import nodedownload
 sys.path.insert(0, 'tools')
 import getmoduleversion
 import getnapibuildversion
-import getsharedopensslhasquic
 from gyp_node import run_gyp
 from utils import SearchFiles
 
@@ -574,6 +573,29 @@ shared_optgroup.add_argument('--shared-sqlite-libpath',
     dest='shared_sqlite_libpath',
     help='a directory to search for the shared sqlite DLL')
 
+shared_optgroup.add_argument('--shared-zstd',
+    action='store_true',
+    dest='shared_zstd',
+    default=None,
+    help='link to a shared zstd DLL instead of static linking')
+
+shared_optgroup.add_argument('--shared-zstd-includes',
+    action='store',
+    dest='shared_zstd_includes',
+    help='directory containing zstd header files')
+
+shared_optgroup.add_argument('--shared-zstd-libname',
+    action='store',
+    dest='shared_zstd_libname',
+    default='zstd',
+    help='alternative lib name to link to [default: %(default)s]')
+
+shared_optgroup.add_argument('--shared-zstd-libpath',
+    action='store',
+    dest='shared_zstd_libpath',
+    help='a directory to search for the shared zstd DLL')
+
+parser.add_argument_group(shared_optgroup)
 
 for builtin in shareable_builtins:
   builtin_id = 'shared_builtin_' + builtin + '_path'
@@ -824,6 +846,12 @@ parser.add_argument('--without-siphash',
 
 # End dummy list.
 
+parser.add_argument('--with-quic',
+    action='store_true',
+    dest='quic',
+    default=None,
+    help='build with QUIC support')
+
 parser.add_argument('--without-ssl',
     action='store_true',
     dest='without_ssl',
@@ -995,6 +1023,11 @@ parser.add_argument('--clang-cl',
     default=None,
     help='Configure for clang-cl on Windows. This flag sets the GYP "clang" ' +
          'variable to 1 and "llvm_version" to the specified value.')
+parser.add_argument('--use-ccache-win',
+    action='store_true',
+    dest='use_ccache_win',
+    default=None,
+    help='Use ccache for compiling on Windows. ')
 
 (options, args) = parser.parse_known_args()
 
@@ -1171,6 +1204,8 @@ def get_gas_version(cc):
 # check involves checking the build number against an allowlist.  I'm not
 # quite prepared to go that far yet.
 def check_compiler(o):
+  o['variables']['use_ccache_win'] = 0
+
   if sys.platform == 'win32':
     if options.clang_cl:
       o['variables']['clang'] = 1
@@ -1178,6 +1213,9 @@ def check_compiler(o):
     else:
       o['variables']['clang'] = 0
       o['variables']['llvm_version'] = '0.0'
+
+    if options.use_ccache_win:
+      o['variables']['use_ccache_win'] = 1
 
     if not options.openssl_no_asm and options.dest_cpu in ('x86', 'x64'):
       nasm_version = get_nasm_version('nasm')
@@ -1710,6 +1748,7 @@ def configure_openssl(o):
   variables['node_shared_ngtcp2'] = b(options.shared_ngtcp2)
   variables['node_shared_nghttp3'] = b(options.shared_nghttp3)
   variables['openssl_is_fips'] = b(options.openssl_is_fips)
+  variables['node_quic'] = b(options.quic)
   variables['node_fipsinstall'] = b(False)
 
   if options.openssl_no_asm:
@@ -1771,13 +1810,8 @@ def configure_openssl(o):
   if options.openssl_is_fips and not options.shared_openssl:
     variables['node_fipsinstall'] = b(True)
 
-  if options.shared_openssl:
-    has_quic = getsharedopensslhasquic.get_has_quic(options.__dict__['shared_openssl_includes'])
-  else:
-    has_quic = getsharedopensslhasquic.get_has_quic('deps/openssl/openssl/include')
-
-  variables['openssl_quic'] = b(has_quic)
-  if has_quic:
+  variables['openssl_quic'] = b(options.quic)
+  if options.quic:
     o['defines'] += ['NODE_OPENSSL_HAS_QUIC']
 
   configure_library('openssl', o)
@@ -2227,6 +2261,7 @@ configure_library('nghttp3', output, pkgname='libnghttp3')
 configure_library('ngtcp2', output, pkgname='libngtcp2')
 configure_library('sqlite', output, pkgname='sqlite3')
 configure_library('uvwasi', output, pkgname='libuvwasi')
+configure_library('zstd', output)
 configure_v8(output, configurations)
 configure_openssl(output)
 configure_intl(output)
